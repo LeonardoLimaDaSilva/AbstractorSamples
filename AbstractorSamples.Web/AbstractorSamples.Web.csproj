@@ -159,31 +159,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Items\CreateItemHandler.cs" />
     <Compile Include="App_Start\AbstractorConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
-    <Compile Include="Domain\Items\Aggregates\IItemRepository.cs" />
-    <Compile Include="Domain\Items\Commands\CreateItem.cs" />
-    <Compile Include="Domain\Items\Aggregates\Item.cs" />
-    <Compile Include="Domain\Items\Events\ItemCreated.cs" />
-    <Compile Include="Domain\Items\Aggregates\ItemId.cs" />
-    <Compile Include="Domain\Items\Queries\ItemDetail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\AzureStorage\Contexts\ApplicationBlobContext.cs" />
-    <Compile Include="Persistence\AzureStorage\Contexts\ApplicationQueueContext.cs" />
-    <Compile Include="Persistence\AzureStorage\Contexts\ApplicationTableContext.cs" />
-    <Compile Include="Persistence\EntityFramework\Configurations\ItemModelConfiguration.cs" />
-    <Compile Include="Persistence\EntityFramework\Contexts\ApplicationDbContext.cs" />
-    <Compile Include="Persistence\EntityFramework\Contexts\ApplicationMigrationContextConfiguration.cs" />
-    <Compile Include="Persistence\EntityFramework\Contexts\ApplicationMigrationContext.cs" />
-    <Compile Include="Persistence\EntityFramework\Models\ItemModel.cs" />
-    <Compile Include="Persistence\EntityFramework\Repositories\ItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +182,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Persistence\AzureStorage\Repositories\" />
+    <Folder Include="Application\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Persistence\AzureStorage\" />
+    <Folder Include="Persistence\EntityFramework\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractorSamples.Application\AbstractorSamples.Application.csproj">
+      <Project>{32f89f3f-fb98-4fd2-9d2b-01ddebbdd99d}</Project>
+      <Name>AbstractorSamples.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AbstractorSamples.Domain\AbstractorSamples.Domain.csproj">
+      <Project>{8D116D0A-CC4B-457E-9CED-79B98C8C5D15}</Project>
+      <Name>AbstractorSamples.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AbstractorSamples.Persistence.AzureStorage\AbstractorSamples.Persistence.AzureStorage.csproj">
+      <Project>{5802d1a5-609a-4252-b5fe-86b6bbf42a7e}</Project>
+      <Name>AbstractorSamples.Persistence.AzureStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AbstractorSamples.Persistence.EntityFramework\AbstractorSamples.Persistence.EntityFramework.csproj">
+      <Project>{DF4A1BAC-EB8E-4928-8991-CF1A44AF2F6C}</Project>
+      <Name>AbstractorSamples.Persistence.EntityFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

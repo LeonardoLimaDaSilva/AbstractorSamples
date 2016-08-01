@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
-using AbstractorSamples.Web.Persistence.EntityFramework.Contexts;
+using AbstractorSamples.Persistence.EntityFramework.Contexts;
 
 namespace AbstractorSamples.Web
 {

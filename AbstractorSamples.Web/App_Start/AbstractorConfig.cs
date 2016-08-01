@@ -3,15 +3,11 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
-using Abstractor.Cqrs.AzureStorage.Extensions;
 using Abstractor.Cqrs.EntityFramework.Extensions;
 using Abstractor.Cqrs.Infrastructure.CompositionRoot;
 using Abstractor.Cqrs.Infrastructure.CompositionRoot.Extensions;
 using Abstractor.Cqrs.SimpleInjector.Adapters;
-using Abstractor.Cqrs.UnitOfWork.Extensions;
-using AbstractorSamples.Web.Persistence.AzureStorage;
-using AbstractorSamples.Web.Persistence.EntityFramework;
-using AbstractorSamples.Web.Persistence.EntityFramework.Contexts;
+using AbstractorSamples.Persistence.EntityFramework.Contexts;
 using SimpleInjector;
 using SimpleInjector.Extensions.LifetimeScoping;
 using SimpleInjector.Integration.Web.Mvc;
@@ -27,7 +23,7 @@ namespace AbstractorSamples.Web
         private static Container _container;
 
         /// <summary>
-        ///     Singleton instance of Simple Injector
+        ///     Singleton instance of Simple Injector. In this sample it's used only by the BaseApiController, for convenience.
         /// </summary>
         public static Container Container => _container ?? (_container = new Container());
 
@@ -104,17 +100,13 @@ namespace AbstractorSamples.Web
 
         private static IEnumerable<Assembly> GetApplicationAssemblies()
         {
-            // In this sample all the implementations are defined in the same assembly, separated only by namespaces
-            return new[] {Assembly.GetExecutingAssembly()};
-
-            // It is a best practice to define infrastructural implementations in separate assemblies
-            // e.g.:
-            //return new[]
-            //{
-            //    Assembly.Load("MyApplication.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-            //    Assembly.Load("MyApplication.Persistence.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-            //    Assembly.Load("MyApplication.Persistence.AzureStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
-            //};
+            // Returns the assemblies that contains infrastructural implementations
+            return new[]
+            {
+                Assembly.Load("AbstractorSamples.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                Assembly.Load("AbstractorSamples.Persistence.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                Assembly.Load("AbstractorSamples.Persistence.AzureStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
+            };
         }
     }
 }

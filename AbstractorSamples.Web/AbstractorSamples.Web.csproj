@@ -156,11 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="packages\Abstractor\Abstractor.Cqrs.AzureStorage.dll" />
-    <Content Include="packages\Abstractor\Abstractor.Cqrs.dll" />
-    <Content Include="packages\Abstractor\Abstractor.Cqrs.EntityFramework.dll" />
-    <Content Include="packages\Abstractor\Abstractor.Cqrs.SimpleInjector.dll" />
-    <Content Include="packages\Abstractor\Abstractor.Cqrs.UnitOfWork.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Domain\Items\Aggregates\IItemRepository.cs" />
     <Compile Include="Domain\Items\Commands\CreateItem.cs" />
@@ -193,6 +189,7 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

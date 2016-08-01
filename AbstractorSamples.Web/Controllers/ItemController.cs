@@ -1,11 +1,10 @@
-﻿using System.Web.Http;
-using AbstractorSamples.Web.Domain.Items.Commands;
+﻿using AbstractorSamples.Web.Domain.Items.Commands;
 
 namespace AbstractorSamples.Web.Controllers
 {
     public class ItemController : BaseApiController
     {
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public void Post(CreateItem command)
         {
             // Following this pattern, the controllers actions have the only responsibility of dispatching 

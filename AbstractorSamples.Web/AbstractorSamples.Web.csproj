@@ -181,12 +181,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Domain\" />
-    <Folder Include="Persistence\AzureStorage\" />
-    <Folder Include="Persistence\EntityFramework\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AbstractorSamples.Application\AbstractorSamples.Application.csproj">
       <Project>{32f89f3f-fb98-4fd2-9d2b-01ddebbdd99d}</Project>

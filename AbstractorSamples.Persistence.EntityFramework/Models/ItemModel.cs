@@ -1,5 +1,8 @@
 ﻿using System;
 using Abstractor.Cqrs.Interfaces.Domain;
+using AbstractorSamples.Domain.Items.Aggregates;
+using AbstractorSamples.Domain.Items.Events;
+using AbstractorSamples.Domain.Items.Queries;
 
 namespace AbstractorSamples.Persistence.EntityFramework.Models
 {
@@ -10,5 +13,25 @@ namespace AbstractorSamples.Persistence.EntityFramework.Models
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public ItemDetail ToItemDetail()
+        {
+            return new ItemDetail(
+                new ItemId(Id),
+                Name,
+                CreationDate);
+        }
+
+        public static ItemModel FromItemCreated(ItemCreated itemCreated)
+        {
+            return new ItemModel
+            {
+                Id = itemCreated.ItemId.Value,
+                Name = itemCreated.Name,
+                CreationDate = itemCreated.CreationDate
+            };
+        }
     }
 }

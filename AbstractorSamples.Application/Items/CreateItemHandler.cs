@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Abstractor.Cqrs.Interfaces.CrossCuttingConcerns;
 using Abstractor.Cqrs.Interfaces.Events;
 using Abstractor.Cqrs.Interfaces.Operations;
 using AbstractorSamples.Domain.Items.Aggregates;
@@ -8,6 +9,13 @@ namespace AbstractorSamples.Application.Items
 {
     public class CreateItemHandler : ICommandHandler<CreateItem>
     {
+        private readonly IClock _clock;
+
+        public CreateItemHandler(IClock clock)
+        {
+            _clock = clock;
+        }
+
         // The command handlers can receive any service or repository via constructor dependency injection.
         // It's a good practice that repositories interfaces injected into the command handlers have read-only operations, 
         // all the write operations should be performed via domain events emission and omitted from the public interfaces.
@@ -15,7 +23,7 @@ namespace AbstractorSamples.Application.Items
         {
             var item = new Item(ItemId.New());
 
-            item.Create(command.Name);
+            item.Create(command.Name, _clock);
 
             // The events emitted by the aggregate root will be processed synchronously by the framework and dispatched to all interested parties.
             return item.EmittedEvents;

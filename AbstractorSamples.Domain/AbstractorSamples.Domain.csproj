@@ -49,6 +49,8 @@
     <Compile Include="Items\Aggregates\ItemId.cs" />
     <Compile Include="Items\Commands\CreateItem.cs" />
     <Compile Include="Items\Events\ItemCreated.cs" />
+    <Compile Include="Items\Events\ItemDeleted.cs" />
+    <Compile Include="Items\Events\ItemUpdated.cs" />
     <Compile Include="Items\Queries\ItemDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

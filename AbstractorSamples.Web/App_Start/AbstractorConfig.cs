@@ -3,11 +3,16 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
+using Abstractor.Cqrs.AzureStorage.Extensions;
 using Abstractor.Cqrs.EntityFramework.Extensions;
 using Abstractor.Cqrs.Infrastructure.CompositionRoot;
 using Abstractor.Cqrs.Infrastructure.CompositionRoot.Extensions;
+using Abstractor.Cqrs.Interfaces.CrossCuttingConcerns;
 using Abstractor.Cqrs.SimpleInjector.Adapters;
+using Abstractor.Cqrs.UnitOfWork.Extensions;
+using AbstractorSamples.Persistence.AzureStorage.Contexts;
 using AbstractorSamples.Persistence.EntityFramework.Contexts;
+using AbstractorSamples.Web.Common;
 using SimpleInjector;
 using SimpleInjector.Extensions.LifetimeScoping;
 using SimpleInjector.Integration.Web.Mvc;
@@ -68,12 +73,12 @@ namespace AbstractorSamples.Web
             containerAdapter.RegisterEntityFramework<ApplicationDbContext>();
 
             // Registers the Azure Cloud Storage integration module
-            //containerAdapter.RegisterAzureBlob<ApplicationBlobContext>();
-            //containerAdapter.RegisterAzureQueue<ApplicationQueueContext>();
-            //containerAdapter.RegisterAzureTable<ApplicationTableContext>();
+            containerAdapter.RegisterAzureBlob<ApplicationBlobContext>();
+            containerAdapter.RegisterAzureQueue<ApplicationQueueContext>();
+            containerAdapter.RegisterAzureTable<ApplicationTableContext>();
 
             // Registers the Unit of Work module, that synchronizes all the contexts registered above
-            //containerAdapter.RegisterUnitOfWork();
+            containerAdapter.RegisterUnitOfWork();
 
             Container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             Container.RegisterMvcIntegratedFilterProvider();
@@ -87,15 +92,15 @@ namespace AbstractorSamples.Web
         }
 
         /// <summary>
-        ///     Registers application custom implementations
+        ///     Sample of custom implementations registration.
         /// </summary>
         private static void CustomRegistrations()
         {
             // Overrides the default empty logger used by the framework
-            //Container.Register<ILogger, DebugOutputLogger>(Lifestyle.Singleton);
+            Container.Register<ILogger, DebugOutputLogger>(Lifestyle.Singleton);
 
             // Overrides the default system clock provided by the framework
-            //Container.Register<IClock, UtcClock>(Lifestyle.Singleton);
+            Container.Register<IClock, UtcClock>(Lifestyle.Singleton);
         }
 
         private static IEnumerable<Assembly> GetApplicationAssemblies()

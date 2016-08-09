@@ -1,4 +1,5 @@
 ﻿using Abstractor.Cqrs.Infrastructure.Domain;
+using Abstractor.Cqrs.Interfaces.CrossCuttingConcerns;
 using AbstractorSamples.Domain.Items.Events;
 
 namespace AbstractorSamples.Domain.Items.Aggregates
@@ -11,12 +12,12 @@ namespace AbstractorSamples.Domain.Items.Aggregates
         {
         }
 
-        public void Create(string name)
+        public void Create(string name, IClock clock)
         {
             // The aggregate behaviours are totally decoupled from infrastructural concerns.
             // The emitted events represents an intention of an operation that is already validated by the business logic.
             // All the events emitted inside an aggregate will be stored for future processing.
-            Emit(new ItemCreated(Id, name));
+            Emit(new ItemCreated(Id, name, clock.Now()));
         }
     }
 }

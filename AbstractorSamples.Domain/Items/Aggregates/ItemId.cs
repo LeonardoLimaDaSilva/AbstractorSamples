@@ -26,5 +26,10 @@ namespace AbstractorSamples.Domain.Items.Aggregates
             // So, you should return all properties of the value object to be included in equality check.
             yield return Value;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

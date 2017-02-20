@@ -1,6 +1,5 @@
 ﻿using System;
 using Abstractor.Cqrs.Interfaces.Domain;
-using AbstractorSamples.Domain.Items.Aggregates;
 using AbstractorSamples.Domain.Items.Events;
 using AbstractorSamples.Domain.Items.Queries;
 
@@ -28,10 +27,12 @@ namespace AbstractorSamples.Persistence.EntityFramework.Models
 
         public ItemDetail ToItemDetail()
         {
-            return new ItemDetail(
-                new ItemId(Id),
-                Name,
-                CreationDate);
+            return new ItemDetail
+            {
+                CreationDate = CreationDate,
+                Name = Name,
+                ItemId = Id
+            };
         }
     }
 }

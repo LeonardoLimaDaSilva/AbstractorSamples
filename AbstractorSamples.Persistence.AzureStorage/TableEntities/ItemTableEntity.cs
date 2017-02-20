@@ -1,6 +1,5 @@
 using System;
 using Abstractor.Cqrs.AzureStorage.Attributes;
-using AbstractorSamples.Domain.Items.Aggregates;
 using AbstractorSamples.Domain.Items.Events;
 using AbstractorSamples.Domain.Items.Queries;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -29,7 +28,12 @@ namespace AbstractorSamples.Persistence.AzureStorage.TableEntities
 
         public ItemDetail ToItemDetail()
         {
-            return new ItemDetail(new ItemId(Id), Name, CreationDate);
+            return new ItemDetail
+            {
+                CreationDate = CreationDate,
+                Name = Name,
+                ItemId = Id
+            };
         }
     }
 }

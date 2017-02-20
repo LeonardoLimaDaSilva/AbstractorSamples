@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
@@ -39,14 +39,22 @@ namespace AbstractorSamples.Web
         public static void Register(HttpConfiguration httpConfiguration)
         {
             // Defines a hybrid scope for the ScopedLifestyle that supports ASP.NET MVC and Web API
-            Container.Options.DefaultScopedLifestyle = Lifestyle.CreateHybrid(() =>
-                        Lifestyle.Scoped.GetCurrentScope(Container) != null,
-                new LifetimeScopeLifestyle(),
-                new WebApiRequestLifestyle());
+            var lifetimeScopeLifestyle = new LifetimeScopeLifestyle();
+            var webApiRequestLifestyle = new WebApiRequestLifestyle();
 
-            var applicationAssemblies = GetApplicationAssemblies().ToList();
+            Container.Options.DefaultScopedLifestyle = Lifestyle.CreateHybrid(
+                () => lifetimeScopeLifestyle.GetCurrentScope(Container) != null,
+                lifetimeScopeLifestyle,
+                webApiRequestLifestyle);
+
+            // Filters the assemblies that contains infrastructural implementations
+            var applicationAssemblies = AppDomain.CurrentDomain
+                                                 .GetAssemblies()
+                                                 .Where(x => x.FullName.StartsWith("AbstractorSamples"))
+                                                 .ToList();
 
             // Discovers all the concrete types of the application which the type name ends with the following words
+            // That's a helper method for discovering by convention. You should implement your own code if it doesn't fit your needs.
             var applicationTypes = applicationAssemblies
                 .GetImplementations(ImplementationConvention.NameEndsWith,
                     new[]
@@ -58,14 +66,24 @@ namespace AbstractorSamples.Web
                     }
                 );
 
+            // See below another method for discover concrete application types. This implementation returns all types decorated with [Injectable] attribute.
+            //var applicationTypes = applicationAssemblies.GetImplementations();
+
             // Builds the adapter provided by the "Abstractor.Cqrs.SimpleInjector" module
             var containerAdapter = new ContainerAdapter(Container);
 
-            containerAdapter.RegisterAbstractor(settings =>
-            {
-                settings.ApplicationAssemblies = applicationAssemblies;
-                settings.ApplicationTypes = applicationTypes;
-            });
+            containerAdapter.RegisterAbstractor(cs =>
+                {
+                    cs.ApplicationAssemblies = applicationAssemblies;
+                    cs.ApplicationTypes = applicationTypes;
+                },
+                gs =>
+                {
+                    // Enables logging globally. If enabled, there is no need to decorate commands, queries and events with [Log] attribute.
+                    gs.EnableLogging = true;
+                    // Enables command transactions globally. If enabled, there is no need to decorate commands with [Transactional] attribute.
+                    gs.EnableTransactions = true;
+                });
 
             CustomRegistrations();
 
@@ -101,19 +119,6 @@ namespace AbstractorSamples.Web
 
             // Overrides the default system clock provided by the framework
             Container.Register<IClock, UtcClock>(Lifestyle.Singleton);
-        }
-
-        private static IEnumerable<Assembly> GetApplicationAssemblies()
-        {
-            // Returns the assemblies that contains infrastructural implementations
-            return new[]
-            {
-                Assembly.Load("AbstractorSamples.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-                Assembly.Load(
-                    "AbstractorSamples.Persistence.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-                Assembly.Load(
-                    "AbstractorSamples.Persistence.AzureStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
-            };
         }
     }
 }

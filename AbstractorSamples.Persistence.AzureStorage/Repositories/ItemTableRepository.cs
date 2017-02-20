@@ -2,6 +2,7 @@
 using System.Linq;
 using Abstractor.Cqrs.AzureStorage.Interfaces;
 using Abstractor.Cqrs.Interfaces.Events;
+using Abstractor.Cqrs.Interfaces.Operations;
 using AbstractorSamples.Domain.Items.Events;
 using AbstractorSamples.Domain.Items.Queries;
 using AbstractorSamples.Persistence.AzureStorage.TableEntities;
@@ -11,7 +12,8 @@ namespace AbstractorSamples.Persistence.AzureStorage.Repositories
     internal sealed class ItemTableRepository :
         IDomainEventHandler<ItemCreated>,
         IDomainEventHandler<ItemUpdated>,
-        IDomainEventHandler<ItemDeleted>
+        IDomainEventHandler<ItemDeleted>,
+        IQueryHandler<GetAllItemsFromTable, IEnumerable<ItemDetail>>
     {
         private readonly IAzureTableRepository<ItemTableEntity> _repository;
 
@@ -39,6 +41,12 @@ namespace AbstractorSamples.Persistence.AzureStorage.Repositories
         }
 
         public IEnumerable<ItemDetail> GetAllItems()
+        {
+            var entities = _repository.GetAll();
+            return entities.ToList().Select(e => e.ToItemDetail());
+        }
+
+        public IEnumerable<ItemDetail> Handle(GetAllItemsFromTable query)
         {
             var entities = _repository.GetAll();
             return entities.ToList().Select(e => e.ToItemDetail());

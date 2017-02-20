@@ -52,6 +52,8 @@
     <Compile Include="Items\Events\ItemCreated.cs" />
     <Compile Include="Items\Events\ItemDeleted.cs" />
     <Compile Include="Items\Events\ItemUpdated.cs" />
+    <Compile Include="Items\Queries\GetAllItems.cs" />
+    <Compile Include="Items\Queries\GetAllItemsFromTable.cs" />
     <Compile Include="Items\Queries\ItemDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

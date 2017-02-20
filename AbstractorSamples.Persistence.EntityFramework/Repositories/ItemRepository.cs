@@ -32,7 +32,7 @@ namespace AbstractorSamples.Persistence.EntityFramework.Repositories
         public void Handle(ItemDeleted domainEvent)
         {
             // You can delete creating a detached entity with the primary key or getting it first and passing the entire object
-            _repository.Delete(new ItemModel { Id = domainEvent.ItemId.Value });
+            _repository.Delete(new ItemModel {Id = domainEvent.ItemId.Value});
         }
 
         public void Handle(ItemUpdated domainEvent)

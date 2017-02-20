@@ -40,7 +40,7 @@ namespace AbstractorSamples.Web
         {
             // Defines a hybrid scope for the ScopedLifestyle that supports ASP.NET MVC and Web API
             Container.Options.DefaultScopedLifestyle = Lifestyle.CreateHybrid(() =>
-                Container.GetCurrentLifetimeScope() != null,
+                        Lifestyle.Scoped.GetCurrentScope(Container) != null,
                 new LifetimeScopeLifestyle(),
                 new WebApiRequestLifestyle());
 
@@ -60,7 +60,7 @@ namespace AbstractorSamples.Web
 
             // Builds the adapter provided by the "Abstractor.Cqrs.SimpleInjector" module
             var containerAdapter = new ContainerAdapter(Container);
-            
+
             containerAdapter.RegisterAbstractor(settings =>
             {
                 settings.ApplicationAssemblies = applicationAssemblies;
@@ -68,7 +68,7 @@ namespace AbstractorSamples.Web
             });
 
             CustomRegistrations();
-            
+
             // Registers the Entity Framework integration module
             containerAdapter.RegisterEntityFramework<ApplicationDbContext>();
 
@@ -109,8 +109,10 @@ namespace AbstractorSamples.Web
             return new[]
             {
                 Assembly.Load("AbstractorSamples.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-                Assembly.Load("AbstractorSamples.Persistence.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-                Assembly.Load("AbstractorSamples.Persistence.AzureStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
+                Assembly.Load(
+                    "AbstractorSamples.Persistence.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                Assembly.Load(
+                    "AbstractorSamples.Persistence.AzureStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
             };
         }
     }

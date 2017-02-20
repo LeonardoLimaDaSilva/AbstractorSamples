@@ -2,7 +2,7 @@ namespace AbstractorSamples.Persistence.EntityFramework.Contexts
 {
     public class ApplicationMigrationContext : ApplicationDbContext
     {
-        public ApplicationMigrationContext() 
+        public ApplicationMigrationContext()
             : base(null)
         {
         }

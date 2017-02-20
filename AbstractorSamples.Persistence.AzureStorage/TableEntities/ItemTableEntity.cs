@@ -10,16 +10,11 @@ namespace AbstractorSamples.Persistence.AzureStorage.TableEntities
     [AzureTable("ItemTableEntity")]
     public class ItemTableEntity : TableEntity
     {
+        public DateTime CreationDate { get; set; }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-
-        public DateTime CreationDate { get; set; }
-
-        public ItemDetail ToItemDetail()
-        {
-            return new ItemDetail(new ItemId(Id), Name, CreationDate);
-        }
 
         public static ItemTableEntity FromItemCreated(ItemCreated itemCreated)
         {
@@ -30,6 +25,11 @@ namespace AbstractorSamples.Persistence.AzureStorage.TableEntities
                 Name = itemCreated.Name,
                 CreationDate = itemCreated.CreationDate
             };
+        }
+
+        public ItemDetail ToItemDetail()
+        {
+            return new ItemDetail(new ItemId(Id), Name, CreationDate);
         }
     }
 }

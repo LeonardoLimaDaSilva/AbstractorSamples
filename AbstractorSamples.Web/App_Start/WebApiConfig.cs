@@ -12,10 +12,10 @@ namespace AbstractorSamples.Web
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new { id = RouteParameter.Optional }
-            );
+                      "DefaultApi",
+                      "api/{controller}/{id}",
+                      new {id = RouteParameter.Optional}
+                  );
         }
     }
 }

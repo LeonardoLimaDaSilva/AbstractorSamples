@@ -2,7 +2,8 @@ using System.Data.Entity.Migrations;
 
 namespace AbstractorSamples.Persistence.EntityFramework.Contexts
 {
-    public sealed class ApplicationMigrationContextConfiguration : DbMigrationsConfiguration<ApplicationMigrationContext>
+    public sealed class ApplicationMigrationContextConfiguration :
+        DbMigrationsConfiguration<ApplicationMigrationContext>
     {
         public ApplicationMigrationContextConfiguration()
         {

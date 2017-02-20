@@ -10,19 +10,11 @@ namespace AbstractorSamples.Persistence.EntityFramework.Models
     // All dependent entities associations and collections should be handled via the aggregate root.
     public class ItemModel : IAggregateRoot
     {
+        public DateTime CreationDate { get; set; }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-
-        public DateTime CreationDate { get; set; }
-
-        public ItemDetail ToItemDetail()
-        {
-            return new ItemDetail(
-                new ItemId(Id),
-                Name,
-                CreationDate);
-        }
 
         public static ItemModel FromItemCreated(ItemCreated itemCreated)
         {
@@ -32,6 +24,14 @@ namespace AbstractorSamples.Persistence.EntityFramework.Models
                 Name = itemCreated.Name,
                 CreationDate = itemCreated.CreationDate
             };
+        }
+
+        public ItemDetail ToItemDetail()
+        {
+            return new ItemDetail(
+                new ItemId(Id),
+                Name,
+                CreationDate);
         }
     }
 }
